@@ -1,4 +1,4 @@
-# Overview of EXD-API Plugins
+# EXD-API Plugins Overview
 
 The conversion of legacy data into standard data formats often requires data conversion. This can lead to an increased volume of data due to data copies and to an interruption of existing tool chains that use this data.
 
