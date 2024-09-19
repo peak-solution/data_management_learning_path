@@ -1,0 +1,6 @@
+jupyter-book
+matplotlib
+numpy
+ghp-import
+odsbox[exd-data]
+scikit-learn

@@ -1,0 +1,38 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+parts:
+  - caption: Work with ASAM ODS data
+    chapters:
+    - file: ods/0_overview
+    - file: ods/3_explore_the_data_model
+    - file: ods/1_query-asam-server
+    - file: ods/2_load_measurement
+    - file: ods/4_kaggl_electric_motor_temperature_example
+#    - file: ods/JAQueL
+  - caption: Connecting data with ExD Services
+    chapters:
+    - file: exd_api/overview
+    - file: exd_api/develop
+    - file: exd_api/test_exd_service
+    - url: https://github.com/peak-solution/asam_ods_exd_api_mdf4/blob/main/README.md
+      title: ASAM ODS EXD-API MDF4 plugin (external) 
+#    - file: exd_api/exd_api_overview
+#    - file: exd_api/exd_api_check_attributes
+#    - file: exd_api/exd_api_access_csv
+#    - file: exd_api/exd_api_import_file
+
+
+
+#chapters:
+#- file: overview
+#  sections:
+#  - file: ods/0_overview
+#  - file: ods/1_query-asam-server
+#  - file: ods/2_load_mearesult
+#  - file: ods/3_explore_the_data_model
+#  - file: ods/4_Kaggl_Electric_Motor_Temperature_Example
+#  sections:
+#  - file: contend
