@@ -14,6 +14,10 @@ In the second chapter we address how to work with legacy data and ASAM ODS serve
 ```{tableofcontents}
 ```
 
+## Course materials
+
+You can find all Notebooks and examples in our GitHub repository: https://github.com/peak-solution/data_management_learning_path
+
 ## License
 
 Copyright © 2024 [Peak Solution GmbH](https://peak-solution.de)
