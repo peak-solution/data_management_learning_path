@@ -19,7 +19,7 @@ only_build_toc_files        : true
 # See https://jupyterbook.org/content/execute.html
 execute:
   exclude_patterns:
-    - '*test_exd_service'
+    - 'exd_api/test_exd_service.ipynb'
   execute_notebooks: force
 
 # Define the name of the latex output file for PDF builds
@@ -42,3 +42,7 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
+
+sphinx:
+  extensions:
+    - sphinxcontrib.mermaid
