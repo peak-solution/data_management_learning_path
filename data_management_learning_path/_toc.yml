@@ -4,17 +4,25 @@
 format: jb-book
 root: index
 parts:
-  - caption: Work with ASAM ODS data
+  - caption: Work with ASAM ODS
     chapters:
     - file: ods/overview
+      title: Overview
     - file: ods/explore_the_data_model
     - file: ods/query-asam-server
     - file: ods/load_measurement
     - file: ods/kaggl_electric_motor_temperature_example
 #    - file: ods/JAQueL
-  - caption: Connecting data with EXD-API Plugin
+  - caption: Work with openMDM
+    chapters:
+    - file: openMDM/overview
+      title: Overview
+    - file: openMDM/query_openmdm
+    - file: openMDM/read_values
+  - caption: Work with EXD-API Plugins
     chapters:
     - file: exd_api/overview
+      title: Overview
     - file: exd_api/develop
     - file: exd_api/test_exd_service
     - url: https://github.com/peak-solution/asam_ods_exd_api_mdf4/blob/main/README.md
