@@ -13,3 +13,8 @@ Start here your [Data Management Learning Path](https://peak-solution.github.io/
 ## Credits
 
 This project is created using the excellent open source [Jupyter Book project](https://jupyterbook.org/) and the [executablebooks/cookiecutter-jupyter-book template](https://github.com/executablebooks/cookiecutter-jupyter-book).
+
+Note:
+If you want to build [Data Management Learning Path](https://peak-solution.github.io/data_management_learning_path/) on your own computer use
+jupyter-book clean data_management_learning_path/
+jupyter-book build data_management_learning_path/

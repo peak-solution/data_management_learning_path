@@ -12,7 +12,7 @@ parts:
     - file: ods/query-asam-server
     - file: ods/load_measurement
     - file: ods/kaggl_electric_motor_temperature_example
-#    - file: ods/JAQueL
+    - file: ods/JAQueL
   - caption: Work with openMDM
     chapters:
     - file: openMDM/overview
