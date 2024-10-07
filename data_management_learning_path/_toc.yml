@@ -13,6 +13,7 @@ parts:
     - file: ods/load_measurement
     - file: ods/kaggl_electric_motor_temperature_example
     - file: ods/JAQueL
+      title: JAQueL Query Language
   - caption: Work with openMDM
     chapters:
     - file: openMDM/overview
