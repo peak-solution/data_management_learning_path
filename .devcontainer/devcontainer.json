@@ -1,0 +1,42 @@
+{
+    "name": "Jupyter Dev Container",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.12",
+    "features": {
+        "docker-in-docker": "latest"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "github.vscode-pull-request-github",
+				"github.vscode-github-actions",
+				"ms-toolsai.python-ds-extension-pack",
+                "ms-python.vscode-pylance",
+                "ms-python.flake8",
+                "ms-python.black-formatter",
+                "ms-python.isort",
+                "streetsidesoftware.code-spell-checker",
+                "ms-vscode.live-server"
+            ],
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"black-formatter.path": [
+					"/usr/local/py-utils/bin/black"
+				],
+				"pylint.path": [
+					"/usr/local/py-utils/bin/pylint"
+				],
+				"flake8.path": [
+					"/usr/local/py-utils/bin/flake8"
+				],
+				"isort.path": [
+					"/usr/local/py-utils/bin/isort"
+				],
+                "terminal.integrated.shell.linux": "/bin/bash"
+
+			}
+        }
+    },
+    "postCreateCommand": "python -m pip install --upgrade pip && pip install jupyterlab jupyter-book odsbox[exd-data] matplotlib ghp-import scikit-learn seaborn plotly sphinxcontrib-mermaid",
+    "forwardPorts": [8888],
+    "remoteUser": "vscode"
+}
