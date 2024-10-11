@@ -12,6 +12,7 @@ parts:
     - file: ods/query-asam-server
     - file: ods/load_measurement
     - file: ods/kaggl_electric_motor_temperature_example
+      title: Analyzing Electric Motor Temperatures
     - file: ods/JAQueL
       title: JAQueL Query Language
   - caption: Work with openMDM

@@ -7,6 +7,8 @@ Please visit the [openMDM Eclipse project](https://openmdm.org/) for additional 
 
 [openMDM](https://openmdm.org/overview/how-does-it-work/) is an extendable open source framework on top of the [ASAM ODS](https://www.asam.net/standards/detail/ods/wiki/) standard.
 
+![openMDM Overview](/images/openMDM_Overview.png)
+
 While ASAM ODS defines an independent, flexible but standardized physical storage for test and measurement data, openMDM adds additional functionality like:
 
 - Catalog and Template management to define a domain model without database expertise and IT involvement
