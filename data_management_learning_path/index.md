@@ -3,11 +3,12 @@
 ## About this curriculum
 
 In this collection of notebooks we will introduce and guide you through the major concepts of data management.
-The back end of our data management framework is based on the ASAM ODS - such that you#ll learn data management skills using an established standard.
+The back end of our data management framework is based on the [ASAM ODS](https://www.asam.net/standards/detail/ods/wiki/) - such that you'll learn data management skills using an established standard.
 Even though ASAM ODS has its origins in the automotive industry, it can also be used in other industries such as aviation, white goods or land machineries - to only name a few.
 
-In the first chapter we explain how to work with an ASAM ODS server in general.
-In the second chapter we address how to work with legacy data and ASAM ODS servers by using the External Data Services.
+* In the first chapter we explain how to work with an ASAM ODS server in general.
+* In the second chapter we explain how to work with [openMDM](https://openmdm.org/overview/how-does-it-work/) is an extendable open source framework on top of the ASAM ODS standard.
+* In the third chapter we address how to work with legacy data and ASAM ODS servers by using EXD-API Plugins.
 
 ## Course outline
 
