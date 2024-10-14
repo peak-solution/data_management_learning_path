@@ -16,5 +16,7 @@ This project is created using the excellent open source [Jupyter Book project](h
 
 Note:
 If you want to build [Data Management Learning Path](https://peak-solution.github.io/data_management_learning_path/) on your own computer use
+
 jupyter-book clean data_management_learning_path/
+
 jupyter-book build data_management_learning_path/
