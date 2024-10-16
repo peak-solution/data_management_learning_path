@@ -15,6 +15,8 @@ parts:
       title: Analyzing Electric Motor Temperatures
     - file: ods/JAQueL
       title: JAQueL Query Language
+    - file: ods/playground
+      title: Playground
   - caption: Work with openMDM
     chapters:
     - file: openMDM/overview
