@@ -35,6 +35,5 @@ parts:
     chapters:
     - file: spark/overview
       title: Overview
-    - file: spark/Spark_ODS_big_data.ipynb
     - file: spark/Spark_ODS_getting_started.ipynb
-
+    - file: spark/Spark_ODS_big_data.ipynb
