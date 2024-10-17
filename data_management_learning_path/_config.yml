@@ -20,6 +20,8 @@ only_build_toc_files        : true
 execute:
   exclude_patterns:
     - 'exd_api/test_exd_service.ipynb'
+    - 'spark/Spark_ODS_big_data.ipynb'
+    - 'spark/Spark_ODS_getting_started.ipynb'
   execute_notebooks: force
 
 # Define the name of the latex output file for PDF builds
