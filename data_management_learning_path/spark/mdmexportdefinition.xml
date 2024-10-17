@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExportRules name="mdm">
+    <ExportRule applicationElementName="Project" name="ProjectExport">
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+    </ExportRule>
+    <ExportRule applicationElementName="StructureLevel" name="StructureLevelExport">
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <RelationExport name="Project" exportType="EMBED" refExportRuleName="ProjectExport"/>
+    </ExportRule>
+    <ExportRule applicationElementName="Test" name="TestExport">
+        <AttributeExport name="DateClosed" exportType="INCLUDE" exportKey="DateClosed"/>
+        <AttributeExport name="Description" exportType="INCLUDE" exportKey="Description"/>
+        <AttributeExport name="MDMLinks" exportType="INCLUDE" exportKey="MDMLinks"/>
+        <AttributeExport name="DateCreated" exportType="INCLUDE" exportKey="DateCreated"/>
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <RelationExport name="StructureLevel" exportType="EMBED" refExportRuleName="StructureLevelExport"/>
+    </ExportRule>
+    <ExportRule applicationElementName="TestStep" name="TestStepExport">
+        <AttributeExport name="Sortindex" exportType="INCLUDE" exportKey="Sortindex"/>
+        <AttributeExport name="Description" exportType="INCLUDE" exportKey="Description"/>
+        <AttributeExport name="Optional" exportType="INCLUDE" exportKey="Optional"/>
+        <AttributeExport name="MDMLinks" exportType="INCLUDE" exportKey="MDMLinks"/>
+        <AttributeExport name="DateCreated" exportType="INCLUDE" exportKey="DateCreated"/>
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <RelationExport name="Test" exportType="EMBED" refExportRuleName="TestExport"/>
+    </ExportRule>
+    <ExportRule applicationElementName="MeaResult" name="MeaResultExport">
+        <AttributeExport name="Description" exportType="INCLUDE" exportKey="Description"/>
+        <AttributeExport name="StorageType" exportType="INCLUDE" exportKey="StorageType"/>
+        <AttributeExport name="MDMLinks" exportType="INCLUDE" exportKey="MDMLinks"/>
+        <AttributeExport name="Size" exportType="INCLUDE" exportKey="Size"/>
+        <AttributeExport name="MeasurementEnd" exportType="INCLUDE" exportKey="MeasurementEnd"/>
+        <AttributeExport name="DateCreated" exportType="INCLUDE" exportKey="DateCreated"/>
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="analytic_path" exportType="INCLUDE" exportKey="analytic_path"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <AttributeExport name="MeasurementBegin" exportType="INCLUDE" exportKey="MeasurementBegin"/>
+        <RelationExport name="TestStep" exportType="EMBED" refExportRuleName="TestStepExport"/>
+		<!--<RelationExport name="MeaQuantity" exportType="EMBED" refExportRuleName="MeaQuantityExport"/>-->
+    </ExportRule>
+    <ExportRule applicationElementName="MeaQuantity" name="MeaQuantityExport">
+        <AttributeExport name="Minimum" exportType="INCLUDE" exportKey="Minimum"/>
+        <AttributeExport name="flags_name" exportType="INCLUDE" exportKey="flags_name"/>
+        <AttributeExport name="Description" exportType="INCLUDE" exportKey="Description"/>
+        <AttributeExport name="raw_name" exportType="INCLUDE" exportKey="raw_name"/>
+        <AttributeExport name="phys_imag_name" exportType="INCLUDE" exportKey="phys_imag_name"/>
+        <AttributeExport name="non_reference_channel_name" exportType="INCLUDE" exportKey="non_reference_channel_name"/>
+        <AttributeExport name="Average" exportType="INCLUDE" exportKey="Average"/>
+        <AttributeExport name="Rank" exportType="INCLUDE" exportKey="Rank"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <AttributeExport name="phys_name" exportType="INCLUDE" exportKey="phys_name"/>
+        <AttributeExport name="Interpolation" exportType="INCLUDE" exportKey="Interpolation"/>
+        <AttributeExport name="TypeSize" exportType="INCLUDE" exportKey="TypeSize"/>
+        <AttributeExport name="raw_imag_name" exportType="INCLUDE" exportKey="raw_imag_name"/>
+        <AttributeExport name="Maximum" exportType="INCLUDE" exportKey="Maximum"/>
+        <AttributeExport name="reference_channel_name" exportType="INCLUDE" exportKey="reference_channel_name"/>
+        <AttributeExport name="DataType" exportType="INCLUDE" exportKey="DataType"/>
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="Deviation" exportType="INCLUDE" exportKey="Deviation"/>
+        <RelationExport name="LocalColumns" exportType="EMBED" refExportRuleName="LocalColumnExport"/>
+        <RelationExport name="MeaResult" exportType="EMBED" refExportRuleName="MeaResultExport"/>
+    </ExportRule>
+    <ExportRule applicationElementName="SubMatrix" name="SubMatrixExport">
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <AttributeExport name="SubMatrixNoRows" exportType="INCLUDE" exportKey="SubMatrixNoRows"/>
+    </ExportRule>
+    <ExportRule applicationElementName="LocalColumn" name="LocalColumnExport">
+        <AttributeExport name="IndependentFlag" exportType="INCLUDE" exportKey="IndependentFlag"/>
+        <AttributeExport name="SequenceRepresentation" exportType="INCLUDE" exportKey="SequenceRepresentation"/>
+        <AttributeExport name="GlobalFlag" exportType="INCLUDE" exportKey="GlobalFlag"/>
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="RawDatatype" exportType="INCLUDE" exportKey="RawDatatype"/>
+        <AttributeExport name="MimeType" exportType="INCLUDE" exportKey="MimeType"/>
+        <AttributeExport name="axistype" exportType="INCLUDE" exportKey="axistype"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <RelationExport name="ExternalComponent" exportType="EMBED" refExportRuleName="ExternalComponentExport"/>
+        <RelationExport name="SubMatrix" exportType="EMBED" refExportRuleName="SubMatrixExport"/>
+    </ExportRule>
+    <ExportRule applicationElementName="ExternalComponent" name="ExternalComponentExport">
+        <AttributeExport name="OrdinalNumber" exportType="INCLUDE" exportKey="OrdinalNumber"/>
+        <AttributeExport name="FlagsFilenameURL" exportType="INCLUDE" exportKey="FlagsFilenameURL"/>
+        <AttributeExport name="StartOffset" exportType="INCLUDE" exportKey="StartOffset"/>
+        <AttributeExport name="ValueOffset" exportType="INCLUDE" exportKey="ValueOffset"/>
+        <AttributeExport name="FilenameURL" exportType="INCLUDE" exportKey="FilenameURL"/>
+        <AttributeExport name="Blocksize" exportType="INCLUDE" exportKey="Blocksize"/>
+        <AttributeExport name="Name" exportType="INCLUDE" exportKey="Name"/>
+        <AttributeExport name="BitOffset" exportType="INCLUDE" exportKey="BitOffset"/>
+        <AttributeExport name="BitCount" exportType="INCLUDE" exportKey="BitCount"/>
+        <AttributeExport name="ValuesPerBlock" exportType="INCLUDE" exportKey="ValuesPerBlock"/>
+        <AttributeExport name="Length" exportType="INCLUDE" exportKey="Length"/>
+        <AttributeExport name="Id" exportType="INCLUDE" exportKey="Id"/>
+        <AttributeExport name="FlagsStartOffset" exportType="INCLUDE" exportKey="FlagsStartOffset"/>
+        <AttributeExport name="TypeSpecification" exportType="INCLUDE" exportKey="TypeSpecification"/>
+    </ExportRule>
+</ExportRules>
