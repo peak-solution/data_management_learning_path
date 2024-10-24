@@ -48,3 +48,6 @@ html:
 sphinx:
   extensions:
     - sphinxcontrib.mermaid
+
+launch_buttons:
+  colab_url: https://colab.research.google.com
