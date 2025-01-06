@@ -2,76 +2,43 @@
 
 The Peak ODS Adapter for [Apache Spark](https://spark.apache.org/) allows you to interact with [ASAM ODS](https://www.asam.net/standards/detail/ods/wiki/) data using Spark SQL and DataFrames.
 
-Furthermore, the Peak ODS Adapter for Apache Spark also allows to export your data to the big data world by providing the ASAM ODS Big Data Connector functionalities to you. 
+Furthermore, the Peak ODS Adapter for Apache Spark also allows to export your data to the big data world by providing the ASAM ODS Big Data Connector functionalities to you.
 
 ![Powered by Apache Spark](/images/Spark.png)
 
 ## Overview
 
-The Peak ODS Adapter for Apache Spark allows exporting ASAM ODS instance and measurement (mass) data in a format suitable for big data analysis tools in the ways defined by the ASAM ODS standard: AVRO/JSON for instance data and Parquet for mass data.
+The *Peak ODS Adapter for Apache Spark* defines the ODS connectivity as a Data Source format like all other Spark Adaptors. So you use the *Peak ODS Adapter for Apache Spark* Data Source formats to get the data into the Spark DataFrame (`read`).
 
-However, the Peak ODS Adapter for Apache Spark allows using all build-in Spark Data Sources for writing, so you're free to choose the most suitable format for your application.
+The *Peak ODS Adapter for Apache Spark* supports three Data Source formats:
 
-NOTE::
-Don't get confused with Data Source formats. The Peak ODS Adapter for Apache Spark defines the ODS connectivity as a Data Source format like all other Spark Adaptors. So you use the Peak ODS Adapter for Apache Spark Data Source formats to get the data into the Spark DataFrame (`read`) and the other Spark Data Source formats for exporting the DataFrame (`write`).
+* *odsinstances*: Use `format("odsinstances")` to get instance data. The Spark DataFrame you're working on will contains all application attributes as columns and all instances of the loaded entity (application element) as rows.
 
-## Export ODS Big Data
 
-Exporting data according to the ASAM ODS Big Data standards is a two step approach:
+  **Notebook**: [📓 Work with instance data](Spark_ODS_instance_data.ipynb)
 
-- First you "select" the data to be loaded from the Peak ODS Server.
-- Then you specify how your Spark DataFrame is stored.
+* *ods*: Use `format("ods")` to get measurement (bulk) data. Your Spark DataFrame will contain all channels (MeaQuantities) as columns. When querying data from multiple measurements, it will be concatenated in the DataFrame. The first column in the DataFrame contains the information to which measurement (submatrix) the specific row belongs.
 
-The next two sections will describe in more detail how to do this for instance data and mass data.
 
-### Read Instance Data using an Export Definition File
+  **Notebook**: [📓 Work with measurement data](Spark_ODS_measurement_data.ipynb)
 
-To read instance data according to the ASAM ODS Big Data Connector standard, define "mappedodsinstances" as Data Source format.
+* *mappedodsinstances*: Use `format("mappedodsinstances")` to read instance data according to the ASAM ODS Big Data Connector standard. With the help of an ASAM ODS Export Definition File you define which attributes of a certain entity to be loaded, you can map the attribute to a different name (alias) and you can implicitly join other entities of your data model (schema).
 
-Define the export definition file by specifying the file name as "mappingrulefile" option.
 
-Define a specific rule of the Export Definition File to be executed - in our example "MeaResultExport".
+  **Notebook**: [📓 ASAM ODS Big Data Connector](Spark_ODS_big_data.ipynb)
 
-```python
-df = spark.read.format("mappedodsinstances")\
-    .options(**odsOptions)\
-    .option("mappingrulefile","mdmexportdefinition.xml")
-    .load("MeaResultExport")
-```
+Note: You can use other Spark Data Source formats, such as for instance `"avro"`, for exporting the DataFrame (`write`).
 
-NOTE::
-Within an ASAM ODS Export Definition File you can select which attributes of a certain entity to be loaded, you can map the attribute to a different name (alias) and you can implicitly join other entities of your data model (schema).
+## Compare Spark DataFrame and Pandas DataFrame
 
-After loading the data you can export the data to Avro:
+Due to lazy evaluation and an optimized execution plan, Spark DataFrames can cope with massive datasets that exceed the memory potential of a single device and leverage the computing capabilities of Spark. 
 
-```python
-df.write.format("avro").save("mearesult.avro")
-```
+On the other side, Spark DataFrames require distributed computing surroundings and cluster configuration, which provides complexity compared to a single-machine solution like Pandas DataFrames.
 
-NOTE::
-You can also write to Avro using the "odsinstance" Data Source format of the Peak Spark ODS Adapter.
+For a more detailed discussion on the differences between Spark and Pandas DataFrames, see for example: [Difference between Spark DataFrame and Pandas DataFrame](https://www.tutorialspoint.com/difference-between-spark-dataframe-and-pandas-dataframe)
 
-### Read ODS measurement (mass) data
+## License
 
-Use the "ods" format as Data Source, to load measurement data.
+Copyright © 2025 [Peak Solution GmbH](https://peak-solution.de)
 
-Depending which measurements you load, your DataFrame will contain different measurement quantities and thus different columns.
-
-In addition, the DataFrame will contain a special column "idref" which contains a globally unique identifier to identify the measurement to which the values of the actual row belong - which is especially useful in case several measurements are contained in the same DataFrame.
-
-You can additionally load the data as binary (packed) and in chunks (to avoid big blobs) as well as treating column (local column) names as "case sensitive":
-
-```python
-df = spark.read.format("ods")\
-    .options(**odsOptions)\
-    .option("mode", "packed")\
-    .option("maxChunkCount", 10000)\
-    .option("caseSensitive", "true")\
-    .load("where MeaResult.Id = 3")
-```
-
-After loading the data you can export the data to Parquet:
-
-```python
-df.write.parquet("mearesult_id_3")
-```
+The training material in this repository is licensed under a Creative Commons BY-NC-SA 4.0 license. See [LICENSE](../LICENSE) file for more information.
