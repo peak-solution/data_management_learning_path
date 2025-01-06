@@ -1,6 +1,6 @@
 # JAQueL: An intuitive query language for measurement data based on ASAM ODS
 
-JAQueL stands for "**J**son **A**SAM ODS **Qu**ery **L**anguage" and is
+JAQueL stands for "**J**son **A**SAM ODS **Que**ry **L**anguage" and is
 a lightweight wrapper on the standardized [ASAM ODS REST
 API](https://www.asam.net/standards/detail/ods/wiki/).
 
