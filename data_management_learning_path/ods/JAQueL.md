@@ -1751,3 +1751,9 @@ NOTE: Empty (NULL) attribute values are ignored for aggregates.
 | $rowskip   | SelectStatement.row_start    |
 | $seqlimit  | SelectStatement.values_limit |
 | $seqskip   | SelectStatement.values_start |
+
+## License
+
+Copyright © 2025 [Peak Solution GmbH](https://peak-solution.de)
+
+The training material in this repository is licensed under a Creative Commons BY-NC-SA 4.0 license. See [LICENSE](../LICENSE) file for more information.
