@@ -6,3 +6,4 @@ odsbox[exd-data]
 scikit-learn
 seaborn
 sphinxcontrib-mermaid
+pyspark
