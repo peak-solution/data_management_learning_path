@@ -48,4 +48,5 @@ jobs:
 
       # Deploy the book's HTML to GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v3
+        id: deployment
+        uses: actions/deploy-pages@v4
