@@ -10,7 +10,7 @@ Even though ASAM ODS has its origins in the automotive industry, it can also be 
 
 **Work with ASAM ODS**
 
-* In the *first chapter* we explain how to [work with an ASAM ODS server](ods\overview.ipynb) in general.
+* In the *first chapter* we explain how to [work with an ASAM ODS server](\ods\overview.ipynb) in general.
 
 **Work with openMDM**
 
