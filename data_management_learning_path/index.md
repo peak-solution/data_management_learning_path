@@ -10,19 +10,19 @@ Even though ASAM ODS has its origins in the automotive industry, it can also be 
 
 **Work with ASAM ODS**
 
-* In the *first chapter* we explain how to [work with an ASAM ODS server](\ods\overview.ipynb) in general.
+* In the *first chapter* we explain how to [work with an ASAM ODS server](/ods/overview.ipynb) in general.
 
 **Work with openMDM**
 
-* In the *second chapter* we explain how to [work with openMDM](openMDM\overview.ipynb) - an extendable open source framework on top of the ASAM ODS standard.
+* In the *second chapter* we explain how to [work with openMDM](/openMDM/overview.ipynb) - an extendable open source framework on top of the ASAM ODS standard.
 
 **Work with EXD-API Plugins**
 
-* In the *third chapter* we address how to work with legacy data and ASAM ODS servers by using [EXD-API Plugins](exd_api\overview.md).
+* In the *third chapter* we address how to work with legacy data and ASAM ODS servers by using [EXD-API Plugins](/exd_api/overview.md).
 
 **Work with Apache Spark**
 
-* In the *forth chapter* we provide some basics how you can use [Apache Spark](spark\overview.md) together with ASAM ODS and the ASAM ODS Big Data associated standard.  
+* In the *forth chapter* we provide some basics how you can use [Apache Spark](/spark/overview.md) together with ASAM ODS and the ASAM ODS Big Data associated standard.  
 
 **Use the Notebooks**
 
