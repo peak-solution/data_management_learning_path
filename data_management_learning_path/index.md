@@ -26,7 +26,7 @@ Even though ASAM ODS has its origins in the automotive industry, it can also be 
 
 **Use the Notebooks**
 
-* *Data Management Learning Path* is based on [Jupyter Notebooks](https://jupyter.org/) such that you can interact and explore the content "live". You can find some hints and ideas how you can [use Notebooks](notebooking\overview.md) in the *last chapter*.
+* *Data Management Learning Path* is based on [Jupyter Notebooks](https://jupyter.org/) such that you can interact and explore the content "live". You can find some hints and ideas how you can [use Notebooks](/notebooking/overview.md) in the *last chapter*.
 
 ## Course materials
 
