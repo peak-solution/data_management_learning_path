@@ -8,9 +8,8 @@ parts:
     chapters:
     - file: ods/overview
       title: Overview
-    - file: ods/explore_the_data_model
-    - file: ods/query-asam-server
     - file: ods/load_measurement
+    - file: ods/query-asam-server    
     - file: ods/kaggl_electric_motor_temperature_example
       title: Analyzing Electric Motor Temperatures
     - file: ods/crash_analysis
@@ -20,6 +19,7 @@ parts:
       title: Work with Power BI
     - file: ods/playground
       title: Playground
+    - file: ods/explore_the_data_model
   - caption: Work with openMDM
     chapters:
     - file: openMDM/overview
