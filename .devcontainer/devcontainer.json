@@ -1,8 +1,11 @@
 {
     "name": "Jupyter Dev Container",
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.12",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11-bullseye",
     "features": {
-        "docker-in-docker": "latest"
+           "docker-in-docker": {
+              "version": "latest",
+              "moby": false
+           }
     },
     "customizations": {
         "vscode": {
