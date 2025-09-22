@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASAM ODS BaseModel Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px 30px;
+            font-size: 1.4em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #2980b9, #1f639a);
+        }
+
+        .section-header.special {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .section-header.special:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
+
+        .section-header .toggle {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.collapsed .toggle {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 0;
+            overflow: visible;
+            transition: max-height 0.3s ease;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+        }
+
+        .entities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .entity-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .entity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .entity-header {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 12px 16px;
+            font-weight: 500;
+            font-size: 1em;
+        }
+
+        /* Colored headers for grouped entities */
+        .entity-card.group-test .entity-header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .entity-card.group-equipment .entity-header {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .entity-card.group-units .entity-header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .entity-card.group-users .entity-header {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+        }
+
+        .entity-card.group-parameters .entity-header {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+        }
+
+        .entity-card.group-system .entity-header {
+            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+        }
+
+        .entity-id {
+            font-size: 0.8em;
+            opacity: 0.8;
+            margin-left: 8px;
+        }
+
+        .entity-content {
+            padding: 15px;
+        }
+
+        .attributes,
+        .relations {
+            margin-bottom: 15px;
+        }
+
+        .subsection-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .attribute-item,
+        .relation-item {
+            background: #f8f9fa;
+            padding: 6px 10px;
+            margin-bottom: 3px;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+            font-size: 0.85em;
+        }
+
+        .relation-item {
+            border-left-color: #e74c3c;
+        }
+
+        .relation-meta {
+            font-size: 0.75em;
+            color: #7f8c8d;
+            margin-top: 2px;
+            line-height: 1.3;
+        }
+
+        .attribute-details,
+        .relation-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .attribute-name,
+        .relation-name {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .attribute-type,
+        .relation-type {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            background: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .entity-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .entity-link:hover {
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+        }
+
+        .entity-link:not(:last-child)::after {
+            content: ', ';
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+
+        .inherited-attributes {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .inherited-attributes.collapsed {
+            max-height: 0;
+        }
+
+        .inherited-toggle:hover {
+            color: #3498db !important;
+        }
+
+        .toggle-symbol {
+            transition: transform 0.3s ease;
+        }
+
+        .inherited-toggle.collapsed .toggle-symbol {
+            transform: rotate(-90deg);
+        }
+
+        /* ERD Styling */
+        .erd-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .erd-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .erd-diagram {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 40px;
+            min-height: 800px;
+            position: relative;
+            overflow: visible;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .erd-entity {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 5px;
+            display: inline-block;
+            position: absolute;
+            min-width: 140px;
+            max-width: 160px;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+        .erd-entity:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+        }
+
+        .erd-entity.group-test {
+            border-color: #e74c3c;
+            background: linear-gradient(135deg, #fff5f5, #ffeaea);
+            color: #c0392b;
+        }
+
+        .erd-entity.group-equipment {
+            border-color: #f39c12;
+            background: linear-gradient(135deg, #fffaf5, #fef4e6);
+            color: #d68910;
+        }
+
+        .erd-entity.group-units {
+            border-color: #27ae60;
+            background: linear-gradient(135deg, #f7fdf9, #eaf7f0);
+            color: #229954;
+        }
+
+        .erd-connection {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .erd-line {
+            stroke: #7f8c8d;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .erd-line.primary {
+            stroke: #3498db;
+            stroke-width: 3;
+        }
+
+        .erd-line.secondary {
+            stroke: #95a5a6;
+            stroke-width: 2;
+            stroke-dasharray: 5, 5;
+        }
+
+        .erd-label {
+            font-size: 0.75em;
+            fill: #2c3e50;
+            font-weight: 500;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .erd-group {
+            position: absolute;
+            border: 2px dashed rgba(52, 152, 219, 0.3);
+            border-radius: 20px;
+            background: rgba(52, 152, 219, 0.05);
+            z-index: 0;
+        }
+
+        .erd-group-label {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #3498db;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #3498db;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3498db;
+            display: block;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .overview-diagram {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .diagram-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .entity-graph {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 20px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 10px;
+            background: #f8f9fa;
+            scrollbar-width: thin;
+            scrollbar-color: #bdc3c7 #f8f9fa;
+        }
+
+        .entity-graph::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .entity-graph::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .entity-graph::-webkit-scrollbar-thumb {
+            background: #bdc3c7;
+            border-radius: 4px;
+        }
+
+        .entity-graph::-webkit-scrollbar-thumb:hover {
+            background: #95a5a6;
+        }
+
+        .entity-node {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .entity-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Group 1: Test & Measurement (Red) */
+        .entity-node.group-test {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .entity-node.group-test:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
+
+        /* Group 2: Test Equipment (Orange) */
+        .entity-node.group-equipment {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .entity-node.group-equipment:hover {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+
+        /* Group 3: Units & Quantities (Green) */
+        .entity-node.group-units {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .entity-node.group-units:hover {
+            background: linear-gradient(135deg, #2ecc71, #58d68d);
+        }
+
+        /* Group 4: Users (Purple) */
+        .entity-node.group-users {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+        }
+
+        .entity-node.group-users:hover {
+            background: linear-gradient(135deg, #9b59b6, #bb8fce);
+        }
+
+        /* Group 5: Parameters (Teal) */
+        .entity-node.group-parameters {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+        }
+
+        .entity-node.group-parameters:hover {
+            background: linear-gradient(135deg, #1abc9c, #5dade2);
+        }
+
+        /* Group 6: System (Gray) */
+        .entity-node.group-system {
+            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+        }
+
+        .entity-node.group-system:hover {
+            background: linear-gradient(135deg, #95a5a6, #bdc3c7);
+        }
+
+        /* Default for ungrouped entities (Blue) */
+        .entity-node:not([class*="group-"]) {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .entity-node:not([class*="group-"]):hover {
+            background: linear-gradient(135deg, #2980b9, #1f639a);
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-color.group-test {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .legend-color.group-equipment {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .legend-color.group-units {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .legend-color.group-users {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+        }
+
+        .legend-color.group-parameters {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+        }
+
+        .legend-color.group-system {
+            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+        }
+
+        .legend-color.group-default {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        @media (max-width: 768px) {
+            .entities-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .entity-graph {
+                max-height: 500px;
+            }
+
+            .legend {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .entity-node {
+                min-width: 70px;
+                font-size: 0.75em;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ASAM ODS BaseModel Viewer</h1>
+            <p>Entity-Relationship Model for ASAM ODS BaseModel</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <p>Loading BaseModel data...</p>
+        </div>
+
+        <div id="error" class="error hidden">
+            <p>Error loading data. Please try again later.</p>
+        </div>
+
+        <div id="content" class="hidden">
+            <div class="overview-diagram">
+                <div class="diagram-title">Entity Overview</div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color group-test"></div>
+                        <span>Test & Measurement</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color group-equipment"></div>
+                        <span>Test Equipment</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color group-units"></div>
+                        <span>Units & Quantities</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color group-users"></div>
+                        <span>Users</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color group-parameters"></div>
+                        <span>Parameters</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color group-system"></div>
+                        <span>System</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color group-default"></div>
+                        <span>Other</span>
+                    </div>
+                </div>
+                <div class="entity-graph" id="entityGraph">
+                    <!-- Entities will be populated here -->
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search entities...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="stats" id="stats"></div>
+
+            <div class="section">
+                <div class="section-header" onclick="toggleSection('allEntities')">
+                    <span>All Entities</span>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content" id="allEntities">
+                    <div class="entities-grid" id="allEntitiesGrid"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header" onclick="toggleSection('erdDiagram')">
+                    <span>Entity Relationship Diagram</span>
+                    <span class="toggle">▼</span>
+                </div>
+                <div class="section-content" id="erdDiagram">
+                    <div class="erd-container">
+                        <div class="erd-title">Core ASAM ODS Entities and Relationships</div>
+                        <div class="erd-diagram" id="erdDiagramContent">
+                            <!-- ERD will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let baseModelData = null;
+
+        async function loadBaseModel() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/asam-ev/ASAM-ODS-Interfaces/refs/heads/main/ODSBaseModel_asam36.protobuf.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                baseModelData = data;
+                renderBaseModel();
+            } catch (error) {
+                console.error('Error loading BaseModel:', error);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').classList.remove('hidden');
+            }
+        }
+
+        function renderBaseModel() {
+            if (!baseModelData || !baseModelData.entities) {
+                document.getElementById('error').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+
+            renderOverviewDiagram();
+            renderStats();
+            renderAllEntities();
+            renderERD();
+            setupSearch();
+
+            // Ensure the entities section is visible by default
+            const entitiesSection = document.getElementById('allEntities');
+            if (entitiesSection && entitiesSection.classList.contains('collapsed')) {
+                toggleSection('allEntities');
+            }
+        }
+
+        function renderOverviewDiagram() {
+            const entities = baseModelData.entities;
+
+            // Define entity groups in the desired order
+            const orderedEntityGroups = [
+                {
+                    class: 'group-test',
+                    entities: ['AoEnvironment', 'AoTest', 'AoSubTest', 'AoMeasurement', 'AoMeasurementQuantity', 'AoSubmatrix', 'AoLocalColumn', 'AoExternalComponent', 'AoFile']
+                },
+                {
+                    class: 'group-equipment',
+                    entities: ['AoUnitUnderTest', 'AoUnitUnderTestPart', 'AoTestEquipment', 'AoTestEquipmentPart', 'AoTestSequence', 'AoTestSequencePart', 'AoTestDevice']
+                },
+                {
+                    class: 'group-units',
+                    entities: ['AoQuantity', 'AoQuantityGroup', 'AoUnit', 'AoUnitGroup', 'AoPhysicalDimension']
+                },
+                {
+                    class: 'group-users',
+                    entities: ['AoUser', 'AoUserGroup']
+                },
+                {
+                    class: 'group-parameters',
+                    entities: ['AoParameter', 'AoParameterSet']
+                },
+                {
+                    class: 'group-system',
+                    entities: ['AoAny', 'AoLog', 'AoMimetypeMap', 'AoNameMap', 'AoAttributeMap']
+                }
+            ];
+
+            // Create a lookup map for entity groups
+            const entityGroupMap = {};
+            orderedEntityGroups.forEach(group => {
+                group.entities.forEach(entityName => {
+                    entityGroupMap[entityName] = group.class;
+                });
+            });
+
+            // Create ordered entity list
+            let orderedEntities = [];
+
+            // Add entities from defined groups in order
+            orderedEntityGroups.forEach(group => {
+                group.entities.forEach(entityName => {
+                    if (entities[entityName]) {
+                        orderedEntities.push(entityName);
+                    }
+                });
+            });
+
+            // Add remaining entities not in any group (sorted alphabetically)
+            const remainingEntities = Object.keys(entities)
+                .filter(entityName => !entityGroupMap[entityName])
+                .sort();
+
+            orderedEntities = orderedEntities.concat(remainingEntities);
+
+            const entityNodes = orderedEntities.map(entityName => {
+                const groupClass = entityGroupMap[entityName] || '';
+                return `
+                    <div class="entity-node ${groupClass}"
+                         onclick="scrollToEntity('${entityName}')"
+                         title="Click to view ${entityName} details">
+                        ${entityName}
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('entityGraph').innerHTML = entityNodes;
+        } function renderStats() {
+            const entities = baseModelData.entities;
+            const entitiesCount = Object.keys(entities).length;
+
+            let totalAttributes = 0;
+            let totalRelations = 0;
+
+            Object.values(entities).forEach(entity => {
+                if (entity.attributes) totalAttributes += Object.keys(entity.attributes).length;
+                if (entity.relations) totalRelations += Object.keys(entity.relations).length;
+            });
+
+            const statsHTML = `
+                <div class="stat-card">
+                    <span class="stat-number">${entitiesCount}</span>
+                    <div class="stat-label">Total Entities</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${totalAttributes}</span>
+                    <div class="stat-label">Total Attributes</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${totalRelations}</span>
+                    <div class="stat-label">Total Relations</div>
+                </div>
+            `;
+
+            document.getElementById('stats').innerHTML = statsHTML;
+        }
+
+        function renderAllEntities() {
+            const entities = baseModelData.entities;
+            const allEntitiesHTML = Object.entries(entities).map(([name, entity]) => createEntityCard(name, entity)).join('');
+            document.getElementById('allEntitiesGrid').innerHTML = allEntitiesHTML;
+        }
+
+        function renderERD() {
+            const entities = baseModelData.entities;
+
+            // Define the specific entities for the ERD with logical grouping
+            const erdEntityGroups = {
+                'Test Hierarchy': {
+                    entities: ['AoEnvironment', 'AoTest', 'AoSubTest', 'AoMeasurement'],
+                    color: 'group-test',
+                    x: 50, y: 50, width: 320, height: 180
+                },
+                'Measurement Data': {
+                    entities: ['AoMeasurementQuantity', 'AoSubmatrix', 'AoLocalColumn', 'AoExternalComponent'],
+                    color: 'group-test',
+                    x: 400, y: 50, width: 320, height: 180
+                },
+                'Test Equipment': {
+                    entities: ['AoUnitUnderTest', 'AoUnitUnderTestPart', 'AoTestEquipment', 'AoTestEquipmentPart'],
+                    color: 'group-equipment',
+                    x: 50, y: 280, width: 320, height: 180
+                },
+                'Test Execution': {
+                    entities: ['AoTestSequence', 'AoTestSequencePart', 'AoTestDevice'],
+                    color: 'group-equipment',
+                    x: 400, y: 280, width: 320, height: 130
+                },
+                'Units & Quantities': {
+                    entities: ['AoQuantity', 'AoQuantityGroup', 'AoUnit', 'AoUnitGroup', 'AoPhysicalDimension'],
+                    color: 'group-units',
+                    x: 750, y: 50, width: 300, height: 240
+                }
+            };
+
+            // Calculate entity positions within groups
+            const entityPositions = {};
+            Object.entries(erdEntityGroups).forEach(([groupName, group]) => {
+                const entitiesPerRow = Math.ceil(Math.sqrt(group.entities.length));
+                const entityWidth = 140;
+                const entityHeight = 50;
+                const spacing = 20;
+
+                group.entities.forEach((entityName, index) => {
+                    if (entities[entityName]) {
+                        const row = Math.floor(index / entitiesPerRow);
+                        const col = index % entitiesPerRow;
+
+                        entityPositions[entityName] = {
+                            x: group.x + 20 + col * (entityWidth + spacing),
+                            y: group.y + 40 + row * (entityHeight + spacing),
+                            group: group.color
+                        };
+                    }
+                });
+            });
+
+            // Define key relationships with better descriptions
+            const relationships = [
+                { from: 'AoEnvironment', to: 'AoTest', label: 'contains', type: 'primary' },
+                { from: 'AoTest', to: 'AoSubTest', label: 'comprises', type: 'primary' },
+                { from: 'AoSubTest', to: 'AoMeasurement', label: 'executes', type: 'primary' },
+                { from: 'AoMeasurement', to: 'AoMeasurementQuantity', label: 'produces', type: 'primary' },
+                { from: 'AoMeasurement', to: 'AoSubmatrix', label: 'stores in', type: 'secondary' },
+                { from: 'AoSubmatrix', to: 'AoLocalColumn', label: 'contains', type: 'secondary' },
+                { from: 'AoTest', to: 'AoUnitUnderTest', label: 'tests', type: 'primary' },
+                { from: 'AoUnitUnderTest', to: 'AoUnitUnderTestPart', label: 'composed of', type: 'secondary' },
+                { from: 'AoTest', to: 'AoTestEquipment', label: 'uses', type: 'primary' },
+                { from: 'AoTestEquipment', to: 'AoTestEquipmentPart', label: 'consists of', type: 'secondary' },
+                { from: 'AoTest', to: 'AoTestSequence', label: 'follows', type: 'secondary' },
+                { from: 'AoTestSequence', to: 'AoTestSequencePart', label: 'includes', type: 'secondary' },
+                { from: 'AoMeasurementQuantity', to: 'AoQuantity', label: 'references', type: 'primary' },
+                { from: 'AoQuantity', to: 'AoUnit', label: 'measured in', type: 'primary' },
+                { from: 'AoQuantity', to: 'AoPhysicalDimension', label: 'has dimension', type: 'secondary' }
+            ];
+
+            // Start building HTML
+            let erdHTML = `
+                <svg width="100%" height="500" style="position: absolute; top: 0; left: 0; z-index: 1;">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#7f8c8d" />
+                        </marker>
+                        <marker id="arrowhead-primary" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#3498db" />
+                        </marker>
+                    </defs>
+            `;
+
+            // Add group backgrounds
+            Object.entries(erdEntityGroups).forEach(([groupName, group]) => {
+                erdHTML += `
+                    <rect x="${group.x}" y="${group.y}" width="${group.width}" height="${group.height}"
+                          rx="15" ry="15" fill="rgba(52, 152, 219, 0.05)"
+                          stroke="rgba(52, 152, 219, 0.3)" stroke-width="2" stroke-dasharray="8,4"/>
+                    <text x="${group.x + 15}" y="${group.y + 25}" class="erd-label"
+                          style="font-weight: 600; font-size: 0.9em; fill: #3498db;">${groupName}</text>
+                `;
+            });
+
+            // Add relationship lines
+            relationships.forEach(rel => {
+                const fromPos = entityPositions[rel.from];
+                const toPos = entityPositions[rel.to];
+                if (fromPos && toPos) {
+                    const x1 = fromPos.x + 70;
+                    const y1 = fromPos.y + 25;
+                    const x2 = toPos.x + 70;
+                    const y2 = toPos.y + 25;
+
+                    const midX = (x1 + x2) / 2;
+                    const midY = (y1 + y2) / 2;
+
+                    const lineClass = rel.type === 'primary' ? 'primary' : 'secondary';
+                    const marker = rel.type === 'primary' ? 'arrowhead-primary' : 'arrowhead';
+
+                    erdHTML += `
+                        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"
+                              class="erd-line ${lineClass}" marker-end="url(#${marker})"/>
+                        <text x="${midX}" y="${midY - 5}" class="erd-label">${rel.label}</text>
+                    `;
+                }
+            });
+
+            erdHTML += '</svg>';
+
+            // Add entities
+            Object.entries(entityPositions).forEach(([entityName, pos]) => {
+                erdHTML += `
+                    <div class="erd-entity ${pos.group}"
+                         style="left: ${pos.x}px; top: ${pos.y}px;"
+                         onclick="scrollToEntity('${entityName}')"
+                         title="Click to view ${entityName} details">
+                        ${entityName.replace('Ao', '')}
+                    </div>
+                `;
+            });
+
+            document.getElementById('erdDiagramContent').innerHTML = erdHTML;
+        }
+
+        function createEntityCard(name, entity) {
+            const attributes = entity.attributes || {};
+            const relations = entity.relations || {};
+
+            // Define entity groups to determine card color
+            const entityGroups = {
+                'group-test': ['AoEnvironment', 'AoTest', 'AoSubTest', 'AoMeasurement', 'AoMeasurementQuantity', 'AoSubmatrix', 'AoLocalColumn', 'AoExternalComponent', 'AoFile'],
+                'group-equipment': ['AoUnitUnderTest', 'AoUnitUnderTestPart', 'AoTestEquipment', 'AoTestEquipmentPart', 'AoTestSequence', 'AoTestSequencePart', 'AoTestDevice'],
+                'group-units': ['AoQuantity', 'AoQuantityGroup', 'AoUnit', 'AoUnitGroup', 'AoPhysicalDimension'],
+                'group-users': ['AoUser', 'AoUserGroup'],
+                'group-parameters': ['AoParameter', 'AoParameterSet'],
+                'group-system': ['AoAny', 'AoLog', 'AoMimetypeMap', 'AoNameMap', 'AoAttributeMap']
+            };
+
+            // Find the group class for this entity
+            let groupClass = '';
+            for (const [className, entities] of Object.entries(entityGroups)) {
+                if (entities.includes(name)) {
+                    groupClass = className;
+                    break;
+                }
+            }
+
+            // Define common AoAny attributes that should be collapsed
+            const aoAnyAttributes = ['name', 'id', 'version', 'description', 'version_date', 'mime_type', 'external_references', 'objecttype', 'ao_created', 'ao_created_by', 'ao_last_modified', 'ao_last_modified_by'];
+
+            // Separate attributes into inherited (from AoAny) and specific
+            const inheritedAttributes = {};
+            const specificAttributes = {};
+
+            Object.entries(attributes).forEach(([attrName, attr]) => {
+                if (aoAnyAttributes.includes(attrName)) {
+                    inheritedAttributes[attrName] = attr;
+                } else {
+                    specificAttributes[attrName] = attr;
+                }
+            });
+
+            // Create HTML for specific attributes
+            const specificAttributesHTML = Object.entries(specificAttributes).map(([attrName, attr]) => {
+                const flags = [];
+                if (attr.mandatory) flags.push('M');
+                if (attr.obligatory) flags.push('O');
+                if (attr.autogenerated) flags.push('A');
+                if (attr.enumeration) flags.push(`E(${attr.enumeration})`);
+                const flagsText = flags.length > 0 ? ` [${flags.join(',')}]` : '';
+
+                return `
+                    <div class="attribute-item">
+                        <div class="attribute-details">
+                            <span class="attribute-name">${attrName}</span>
+                            <span class="attribute-type">${getDataTypeName(attr.dataType)}${flagsText}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Create HTML for inherited attributes (collapsed)
+            const inheritedAttributesHTML = Object.entries(inheritedAttributes).map(([attrName, attr]) => {
+                const flags = [];
+                if (attr.mandatory) flags.push('M');
+                if (attr.obligatory) flags.push('O');
+                if (attr.autogenerated) flags.push('A');
+                if (attr.enumeration) flags.push(`E(${attr.enumeration})`);
+                const flagsText = flags.length > 0 ? ` [${flags.join(',')}]` : '';
+
+                return `
+                    <div class="attribute-item">
+                        <div class="attribute-details">
+                            <span class="attribute-name">${attrName}</span>
+                            <span class="attribute-type">${getDataTypeName(attr.dataType)}${flagsText}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const relationsHTML = Object.entries(relations).map(([relName, rel]) => {
+                const targetEntityLinks = rel.entityNames ?
+                    rel.entityNames.map(entityName =>
+                        `<a href="#" class="entity-link" onclick="scrollToEntity('${entityName}'); return false;">${entityName}</a>`
+                    ).join('') : 'N/A';
+
+                // Format cardinality information
+                const getCardinalityText = (min, max) => {
+                    if (max === -1) return `${min}..*`;
+                    if (min === max) return `${min}`;
+                    return `${min}..${max}`;
+                };
+
+                const cardinality = `[${getCardinalityText(rel.rangeMin || 0, rel.rangeMax || 0)}]`;
+                const inverseCardinality = rel.inverseRangeMin !== undefined && rel.inverseRangeMax !== undefined ?
+                    `[${getCardinalityText(rel.inverseRangeMin, rel.inverseRangeMax)}]` : '';
+
+                const relationType = rel.relationType ? getRelationTypeName(rel.relationType) : 'N/A';
+                const relationshipInfo = rel.relationship || 'N/A';
+                const mandatory = rel.mandatory ? ' • Mandatory' : '';
+
+                return `
+                    <div class="relation-item">
+                        <div class="relation-details">
+                            <span class="relation-name">${relName}</span>
+                            <span class="relation-type">${targetEntityLinks}</span>
+                        </div>
+                        <div class="relation-meta">
+                            ${relationType} • ${relationshipInfo}${mandatory}
+                            <br>Cardinality: ${cardinality}${inverseCardinality ? ` ↔ ${inverseCardinality}` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="entity-card ${groupClass}" data-entity-name="${name.toLowerCase()}" id="entity-${name}">
+                    <div class="entity-header">
+                        ${name}
+                        <span class="entity-id">ID: ${entity.bid || 'N/A'}</span>
+                    </div>
+                    <div class="entity-content">
+                        ${Object.keys(specificAttributes).length > 0 ? `
+                            <div class="attributes">
+                                <div class="subsection-title">Specific Attributes (${Object.keys(specificAttributes).length})</div>
+                                ${specificAttributesHTML}
+                            </div>
+                        ` : ''}
+                        ${Object.keys(inheritedAttributes).length > 0 ? `
+                            <div class="attributes">
+                                <div class="subsection-title inherited-toggle" onclick="toggleInheritedAttributes('${name}')" style="cursor: pointer; color: #7f8c8d;">
+                                    <span>Common Attributes (${Object.keys(inheritedAttributes).length})</span>
+                                    <span class="toggle-symbol" style="float: right;">▼</span>
+                                </div>
+                                <div class="inherited-attributes collapsed" id="inherited-${name}">
+                                    ${inheritedAttributesHTML}
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${Object.keys(relations).length > 0 ? `
+                            <div class="relations">
+                                <div class="subsection-title">Relations (${Object.keys(relations).length})</div>
+                                ${relationsHTML}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getDataTypeName(dataType) {
+            const typeMap = {
+                // String-based keys for BaseModel
+                'DT_UNKNOWN': 'UNKNOWN',
+                'DT_STRING': 'STRING',
+                'DT_SHORT': 'SHORT',
+                'DT_FLOAT': 'FLOAT',
+                'DT_BOOLEAN': 'BOOLEAN',
+                'DT_BYTE': 'BYTE',
+                'DT_LONG': 'LONG',
+                'DT_DOUBLE': 'DOUBLE',
+                'DT_LONGLONG': 'LONGLONG',
+                'DT_ID': 'ID',
+                'DT_DATE': 'DATE',
+                'DT_BYTESTR': 'BYTESTR',
+                'DT_BLOB': 'BLOB',
+                'DT_COMPLEX': 'COMPLEX',
+                'DT_DCOMPLEX': 'DCOMPLEX',
+                'DT_EXTERNALREFERENCE': 'EXTERNAL_REF',
+                'DT_ENUM': 'ENUM',
+                // Numeric keys for backward compatibility
+                1: 'STRING',
+                2: 'SHORT',
+                3: 'FLOAT',
+                4: 'BOOLEAN',
+                5: 'BYTE',
+                6: 'LONG',
+                7: 'DOUBLE',
+                8: 'LONGLONG',
+                9: 'DATE',
+                10: 'BYTESTR',
+                11: 'BLOB',
+                12: 'COMPLEX',
+                13: 'DCOMPLEX',
+                30: 'ENUM'
+            };
+            return typeMap[dataType] || dataType || 'Unknown';
+        }
+
+        function getRelationTypeName(relationType) {
+            const typeMap = {
+                'RT_FATHER_CHILD': 'FATHER_CHILD',
+                'RT_INFO': 'INFO',
+                'RT_INHERITANCE': 'INHERITANCE'
+            };
+            return typeMap[relationType] || relationType || 'Unknown';
+        }
+
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const header = section.previousElementSibling;
+
+            section.classList.toggle('collapsed');
+            header.classList.toggle('collapsed');
+        }
+
+        function toggleInheritedAttributes(entityName) {
+            const section = document.getElementById(`inherited-${entityName}`);
+            const toggle = section.parentElement.querySelector('.inherited-toggle');
+
+            section.classList.toggle('collapsed');
+            toggle.classList.toggle('collapsed');
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const entityCards = document.querySelectorAll('.entity-card');
+
+                entityCards.forEach(card => {
+                    const entityName = card.dataset.entityName;
+                    const isVisible = entityName.includes(searchTerm) || searchTerm === '';
+                    card.style.display = isVisible ? 'block' : 'none';
+                });
+            });
+        }
+
+        function scrollToEntity(entityName) {
+            const targetElement = document.getElementById(`entity-${entityName}`);
+            if (targetElement) {
+                // Ensure the section is expanded
+                const section = targetElement.closest('.section-content');
+                if (section && section.classList.contains('collapsed')) {
+                    const sectionId = section.id;
+                    toggleSection(sectionId);
+
+                    // Wait for the section to expand before scrolling
+                    setTimeout(() => {
+                        performScroll(targetElement);
+                    }, 350); // Wait slightly longer than the CSS transition
+                } else {
+                    performScroll(targetElement);
+                }
+            } else {
+                console.warn(`Entity ${entityName} not found`);
+            }
+        }
+
+        function performScroll(targetElement) {
+            // Scroll to element with offset for better visibility
+            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - 100;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Brief highlighting
+            targetElement.style.transform = 'scale(1.02)';
+            targetElement.style.boxShadow = '0 0 20px rgba(52, 152, 219, 0.5)';
+            targetElement.style.transition = 'all 0.3s ease';
+
+            setTimeout(() => {
+                targetElement.style.transform = '';
+                targetElement.style.boxShadow = '';
+            }, 1000);
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', loadBaseModel);
+    </script>
+</body>
+
+</html>
