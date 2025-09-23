@@ -682,6 +682,7 @@
         <div class="header">
             <h1>ASAM ODS BaseModel Viewer</h1>
             <p>Entity-Relationship Model for ASAM ODS BaseModel</p>
+            <p>(based on 'https://raw.githubusercontent.com/asam-ev/ASAM-ODS-Interfaces/refs/heads/main/ODSBaseModel_asam36.protobuf.json') </p>
         </div>
 
         <div id="loading" class="loading">
@@ -769,7 +770,8 @@
 
         async function loadBaseModel() {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/asam-ev/ASAM-ODS-Interfaces/refs/heads/main/ODSBaseModel_asam36.protobuf.json');
+                const BASEMODEL_URL = 'https://raw.githubusercontent.com/asam-ev/ASAM-ODS-Interfaces/refs/heads/main/ODSBaseModel_asam36.protobuf.json';
+                const response = await fetch(BASEMODEL_URL);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

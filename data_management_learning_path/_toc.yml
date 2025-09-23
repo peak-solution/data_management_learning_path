@@ -20,6 +20,8 @@ parts:
     - file: ods/playground
       title: Playground
     - file: ods/explore_the_data_model
+    - url: https://peak-solution.github.io/data_management_learning_path/_static/asam_ods_basemodel_viewer.html
+      title: ASAM ODS Base Model Viewer
   - caption: Work with openMDM
     chapters:
     - file: openMDM/overview
