@@ -42,6 +42,5 @@
     "postCreateCommand": "python -m pip install --upgrade pip && pip install jupyterlab jupyter-book odsbox[exd-data] matplotlib ghp-import scikit-learn seaborn plotly sphinxcontrib-mermaid",
     "forwardPorts": [
         8888
-    ],
-    "remoteUser": "vscode"
+    ]
 }
