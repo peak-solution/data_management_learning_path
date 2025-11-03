@@ -1,6 +1,6 @@
 {
     "name": "Jupyter Dev Container",
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11-bullseye",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.13-bullseye",
     "features": {
            "docker-in-docker": {
               "version": "latest",
@@ -39,7 +39,7 @@
             }
         }
     },
-    "postCreateCommand": "python -m pip install --upgrade pip && pip install jupyterlab jupyter-book odsbox[exd-data] matplotlib ghp-import scikit-learn seaborn plotly sphinxcontrib-mermaid",
+    "postCreateCommand": "python -m pip install --upgrade pip && pip install -r requirements.txt",
     "forwardPorts": [
         8888
     ],

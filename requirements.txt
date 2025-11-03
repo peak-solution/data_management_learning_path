@@ -1,9 +1,6 @@
 jupyter-book<2.0
-matplotlib
-numpy
-ghp-import
-odsbox[exd-data]
-scikit-learn
-seaborn
-sphinxcontrib-mermaid
-pyspark
+matplotlib>=3.5.0
+ghp-import>=1.0.0
+odsbox[exd-data]>=1.0.14
+scikit-learn>=1.0.0
+seaborn>=0.11.0
