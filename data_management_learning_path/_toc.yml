@@ -33,8 +33,6 @@ parts:
     - file: exd_api/overview
       title: Overview
     - file: exd_api/test_exd_service
-    - url: https://github.com/peak-solution?view_as=public#connect-your-data
-      title: Existing EXD-API Plugins (external)
     - url: https://github.com/peak-solution/asam_ods_exd_api_mdf4/blob/main/README.md
       title: ASAM ODS EXD-API MDF4 plugin (external) 
   - caption: Work with Apache Spark
