@@ -9,10 +9,11 @@ parts:
     - file: ods/overview
       title: Overview
     - file: ods/load_measurement
-    - file: ods/query-asam-server    
+    - file: ods/compare_measurement
     - file: ods/kaggl_electric_motor_temperature_example
       title: Analyzing Electric Motor Temperatures
     - file: ods/crash_analysis
+    - file: ods/query-asam-server    
     - file: ods/JAQueL
       title: JAQueL Query Language
     - file: ods/powerbi
