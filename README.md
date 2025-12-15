@@ -3,7 +3,7 @@
 ## About this curriculum
 
 In this collection of notebooks we will introduce and guide you through the major concepts of data management.
-The back end of our data management framework is based on the ASAM ODS - such that you#ll learn data management skills using an established standard.
+The back end of our data management framework is ASAM ODS - such that you'll learn data management skills using an established standard.
 Even though ASAM ODS has its origins in the automotive industry, it can also be used in other industries such as aviation, white goods or land machineries - to only name a few.
 
 ## Explore the content
