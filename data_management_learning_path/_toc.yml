@@ -23,12 +23,6 @@ parts:
     - file: ods/explore_the_data_model
     - url: https://peak-solution.github.io/data_management_learning_path/_static/asam_ods_basemodel_viewer.html
       title: ASAM ODS Base Model Viewer
-  - caption: Work with openMDM
-    chapters:
-    - file: openMDM/overview
-      title: Overview
-    - file: openMDM/query_openmdm
-    - file: openMDM/read_values
   - caption: Work with EXD-API Plugins
     chapters:
     - file: exd_api/overview
@@ -36,13 +30,12 @@ parts:
     - file: exd_api/test_exd_service
     - url: https://github.com/peak-solution/asam_ods_exd_api_mdf4/blob/main/README.md
       title: ASAM ODS EXD-API MDF4 plugin (external) 
-  - caption: Work with Apache Spark
+  - caption: Work with openMDM
     chapters:
-    - file: spark/overview
+    - file: openMDM/overview
       title: Overview
-    - file: spark/Spark_ODS_instance_data.ipynb
-    - file: spark/Spark_ODS_measurement_data.ipynb
-    - file: spark/Spark_ODS_big_data.ipynb
+    - file: openMDM/query_openmdm
+    - file: openMDM/read_values
   - caption: Use the Notebooks
     chapters:
     - file: notebooking/overview
@@ -50,3 +43,10 @@ parts:
     - file: notebooking/vs_code
     - file: notebooking/codespaces
     - file: notebooking/colab
+  - caption: Work with Apache Spark
+    chapters:
+    - file: spark/overview
+      title: Overview
+    - file: spark/Spark_ODS_instance_data.ipynb
+    - file: spark/Spark_ODS_measurement_data.ipynb
+    - file: spark/Spark_ODS_big_data.ipynb
