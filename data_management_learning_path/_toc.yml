@@ -27,7 +27,10 @@ parts:
     chapters:
     - file: exd_api/overview
       title: Overview
+    - file: exd_api/csv_exd_service
     - file: exd_api/test_exd_service
+    - url: https://github.com/totonga/asam_ods_exd_api_pandascsv/blob/main/README.md
+      title: ASAM ODS EXD-API CSV plugin (external)
     - url: https://github.com/peak-solution/asam_ods_exd_api_mdf4/blob/main/README.md
       title: ASAM ODS EXD-API MDF4 plugin (external) 
   - caption: Work with openMDM
