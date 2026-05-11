@@ -13,3 +13,9 @@ With Jupyter Notebooks, you can get a first overview of your data. By adding add
 Furthermore, Jupyter Notebooks are a great environment for rapid software development - like we've shown you for the EXD-API Plugins.
 
 Moreover, you can share your notebooks, either as JSON so that others can use them with their data, or as PDF or HTML so that you can create reports.
+
+## Using Notebooks with AI: ODSBox-AIConnect
+
+**[📓 Work with AI](/ai/overview.md)** — Explore the dedicated AI chapter for a complete learning path with three playgrounds (data interaction, analysis notebooks, and standalone applications).
+
+**Setup & Configuration** — For installation and configuration instructions, see the [MCP Playground Examples](https://github.com/peak-solution/asam_ods_mcp_playground) repository.

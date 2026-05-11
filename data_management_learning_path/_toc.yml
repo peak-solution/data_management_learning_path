@@ -23,6 +23,16 @@ parts:
     - file: ods/explore_the_data_model
     - url: https://peak-solution.github.io/data_management_learning_path/_static/asam_ods_basemodel_viewer.html
       title: ASAM ODS Base Model Viewer
+  - caption: Work with AI
+    chapters:
+    - file: ai/overview
+      title: Overview
+    - file: ai/01_simple_data_interaction
+      title: Simple Data Interaction
+    - file: ai/02_simple_analysis_notebook
+      title: Creating Analysis Notebooks
+    - file: ai/03_simple_analysis_application
+      title: Creating Analysis Applications
   - caption: Work with EXD-API Plugins
     chapters:
     - file: exd_api/overview
