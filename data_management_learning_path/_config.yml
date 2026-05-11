@@ -23,7 +23,6 @@ execute:
     - 'spark/Spark_ODS_big_data.ipynb'
     - 'spark/Spark_ODS_instance_data.ipynb'
     - 'spark/Spark_ODS_measurement_data.ipynb'
-    - 'ods/crash_analysis.ipynb'
 
   execute_notebooks: force
 
